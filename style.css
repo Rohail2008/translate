@@ -83,6 +83,7 @@ body.dark {
   font-weight: 600;
   color: var(--light-text-color);
   white-space: nowrap;
+  color: black;
 }
 
 .dropdown-container {
