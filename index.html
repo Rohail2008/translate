@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="pic.png" type="image/x-icon">
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
+    <title>Language Translator</title>
+  </head>
+  <body>
+    <div class="mode">
+      <label class="toggle" for="dark-mode-btn">
+        <div class="toggle-track">
+          <input type="checkbox" class="toggle-checkbox" id="dark-mode-btn" />
+          <span class="toggle-thumb"></span>
+          <img src="sun.png" alt="" />
+          <img src="moon.png" alt="" />
+        </div>
+      </label>
+    </div>
+    <div class="container">
+      <div class="card input-wrapper">
+        <div class="from">
+          <span class="heading">By Chaudhry :</span>
+          <div class="dropdown-container" id="input-language">
+            <div class="dropdown-toggle">
+              <ion-icon name="globe-outline"></ion-icon>
+              <span class="selected" data-value="auto">Auto Detect</span>
+              <ion-icon name="chevron-down-outline"></ion-icon>
+            </div>
+            <ul class="dropdown-menu">
+              <input type="text" class="language-search" placeholder="Search language..." />
+              </ul>
+          </div>
+        </div>
+        <div class="text-area">
+          <textarea
+            id="input-text"
+            cols="30"
+            rows="10"
+            placeholder="Enter your text here"
+          ></textarea>
+          <div class="chars"><span id="input-chars">0</span> / 5000</div>
+        </div>
+        <div class="card-bottom">
+          <button id="input-listen-btn" class="listen-button">
+            <ion-icon name="volume-high-outline"></ion-icon>
+          </button>
+          <label for="upload-document" class="upload-button">
+            <ion-icon name="document-attach-outline"></ion-icon>
+            <span id="upload-title">Upload Document</span>
+            <input type="file" id="upload-document" hidden />
+          </label>
+        </div>
+      </div>
+
+      <div class="center">
+        <div class="swap-position">
+          <ion-icon name="swap-horizontal-outline"></ion-icon>
+        </div>
+      </div>
+
+      <div class="card output-wrapper">
+        <div class="to">
+          <span class="heading">To :</span>
+          <div class="dropdown-container" id="output-language">
+            <div class="dropdown-toggle">
+              <ion-icon name="globe-outline"></ion-icon>
+              <span class="selected" data-value="en">English</span>
+              <ion-icon name="chevron-down-outline"></ion-icon>
+            </div>
+            <ul class="dropdown-menu">
+              <input type="text" class="language-search" placeholder="Search language..." />
+              </ul>
+          </div>
+        </div>
+        <textarea
+          id="output-text"
+          cols="30"
+          rows="10"
+          placeholder="Translated text will appear here"
+          disabled
+        ></textarea>
+        <div class="card-bottom">
+          <button id="output-listen-btn" class="listen-button">
+            <ion-icon name="volume-high-outline"></ion-icon>
+          </button>
+          <button id="download-btn" class="download-button">
+            <ion-icon name="download-outline"></ion-icon>
+            Download
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="languages.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
