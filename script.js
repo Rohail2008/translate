@@ -11,8 +11,7 @@ const dropdowns = document.querySelectorAll(".dropdown-container"),
  */
 function populateDropdown(dropdown, options, searchTerm = "") {
   const ul = dropdown.querySelector("ul");
-  // Clear existing options but keep the search input field
-  ul.innerHTML = `<input type="text" class="language-search" placeholder="Search language..." />`;
+  ul.innerHTML = `<input type="text" class="language-search" placeholder="Search language..." />`; // Re-add search input
 
   const filteredOptions = options.filter(option =>
     option.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -49,10 +48,9 @@ function populateDropdown(dropdown, options, searchTerm = "") {
   // Re-attach search input listener (if the input was re-added)
   const searchInput = ul.querySelector(".language-search");
   if (searchInput) {
-    searchInput.value = searchTerm; // Keep search term in input field
+    searchInput.value = searchTerm; // Keep search term in input
     searchInput.addEventListener("input", (e) => {
       const currentDropdown = e.target.closest(".dropdown-container");
-      // Repopulate the dropdown with filtered results based on new search term
       populateDropdown(currentDropdown, languages, e.target.value);
     });
   }
@@ -145,7 +143,6 @@ inputTextElem.addEventListener("input", (e) => {
   if (inputTextElem.value.length > 5000) {
     inputTextElem.value = inputTextElem.value.slice(0, 5000);
   }
-  inputChars.innerHTML = inputTextElem.value.length; // Update character count
   translate(); // Translate as user types
 });
 
@@ -213,6 +210,11 @@ darkModeCheckbox.addEventListener("change", () => {
 
 const inputChars = document.querySelector("#input-chars");
 
+// Update input character count
+inputTextElem.addEventListener("input", (e) => {
+  inputChars.innerHTML = inputTextElem.value.length;
+});
+
 // Text-to-speech (Listen) functionality
 const inputListenBtn = document.querySelector("#input-listen-btn");
 const outputListenBtn = document.querySelector("#output-listen-btn");
@@ -224,23 +226,12 @@ const outputListenBtn = document.querySelector("#output-listen-btn");
  */
 function speakText(text, lang) {
   if ('speechSynthesis' in window) {
-    // Cancel any ongoing speech to prevent overlaps
+    // Cancel any ongoing speech
     if (speechSynthesis.speaking) {
       speechSynthesis.cancel();
     }
-
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang; // Set the language based on the dropdown selection
-
-    // Optional: You could try to find a specific voice if needed,
-    // but relying on the 'lang' property is usually sufficient for basic usage.
-    // For advanced voice selection:
-    // const voices = speechSynthesis.getVoices();
-    // const selectedVoice = voices.find(voice => voice.lang === lang);
-    // if (selectedVoice) {
-    //   utterance.voice = selectedVoice;
-    // }
-
+    utterance.lang = lang; // Set the language
     speechSynthesis.speak(utterance); // Speak the text
   } else {
     alert("Sorry, your browser does not support text-to-speech.");
@@ -250,27 +241,19 @@ function speakText(text, lang) {
 // Event listener for input text listen button
 inputListenBtn.addEventListener("click", () => {
   const textToSpeak = inputTextElem.value;
-  // Get the language code from the input dropdown's currently selected value
+  // Get the actual language code from the input dropdown's selected value
   const languageCode = inputLanguageDropdown.querySelector(".selected").dataset.value;
-  if (textToSpeak && languageCode) {
+  if (textToSpeak) {
     speakText(textToSpeak, languageCode);
-  } else if (!textToSpeak) {
-    alert("Please enter text to speak.");
-  } else if (!languageCode || languageCode === "auto") {
-      alert("Please select a specific input language for speech (Auto Detect cannot be spoken).");
   }
 });
 
 // Event listener for output text listen button
 outputListenBtn.addEventListener("click", () => {
   const textToSpeak = outputTextElem.value;
-  // Get the language code from the output dropdown's currently selected value
+  // Get the actual language code from the output dropdown's selected value
   const languageCode = outputLanguageDropdown.querySelector(".selected").dataset.value;
-  if (textToSpeak && languageCode) {
+  if (textToSpeak) {
     speakText(textToSpeak, languageCode);
-  } else if (!textToSpeak) {
-    alert("No translated text to speak.");
-  } else if (!languageCode) {
-      alert("Please select an output language for speech.");
   }
 });
