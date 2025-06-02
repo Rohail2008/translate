@@ -1,0 +1,475 @@
+:root {
+  --primary-color: #356aff;
+  --bg-color: #f5f5f5;
+  --light-bg-color: #fff;
+  --text-color: #111116;
+  --light-text-color: #cdccd1;
+  --primary-text-color: #fff;
+}
+
+/* Dark Mode Variables */
+body.dark {
+  --bg-color: #2c2c2c; /* Darker background */
+  --light-bg-color: #3a3a3a; /* Darker card/element background */
+  --text-color: #f5f5f5; /* Light text for dark mode */
+  --light-text-color: #aaa; /* Slightly darker light text for dark mode */
+}
+
+::-webkit-scrollbar {
+  width: 8px; /* Increased width for better visibility */
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 30px;
+  background: var(--bg-color); /* Use background color variable */
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 30px;
+  background: var(--primary-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2a5dd1; /* Slightly darker primary color on hover */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column; /* Changed to column to allow mode toggle at bottom */
+  align-items: center;
+  justify-content: center; /* This centers the container vertically */
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+  position: relative;
+  width: 1200px;
+  padding: 0 20px;
+  display: flex;
+  gap: 20px; /* Increased gap between cards */
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  justify-content: center; /* Center items when wrapped */
+  margin-top: 50px; /* Space from top for potential header/logo */
+  margin-bottom: 50px; /* Space from bottom for mode toggle */
+}
+
+.container .card {
+  flex: 1;
+  min-width: 350px; /* Ensure cards are not too narrow */
+  padding: 30px;
+  border-radius: 20px;
+  background-color: var(--light-bg-color);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.container .card .from,
+.container .card .to {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Adjusted gap */
+  margin-bottom: 15px; /* Space below "From" and "To" sections */
+}
+
+/* Removed specific margins for from/to, flex will handle it */
+/* .container .card .from { margin-right: 20px; } */
+/* .container .card .to { margin-left: 20px; } */
+
+.container .card .heading {
+  font-size: 0.9rem; /* Slightly larger font */
+  font-weight: 600;
+  color: var(--light-text-color);
+  white-space: nowrap;
+}
+
+.dropdown-container {
+  position: relative;
+  width: 100%;
+  border: 1px solid var(--bg-color); /* Use bg-color for border */
+  border-radius: 30px;
+  background-color: var(--bg-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dropdown-container.active {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(53, 106, 255, 0.2); /* Light blue shadow */
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.dropdown-container .dropdown-toggle {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  font-size: 1em;
+  color: var(--text-color);
+}
+
+.dropdown-container .dropdown-toggle span {
+  flex: 1;
+  margin-left: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdown-container .dropdown-toggle ion-icon {
+  font-size: 22px; /* Slightly larger icons */
+  transition: transform 0.3s ease;
+  color: var(--light-text-color); /* Icon color */
+}
+
+.dropdown-container.active .dropdown-toggle ion-icon:last-child {
+  transform: rotate(180deg);
+}
+
+.dropdown-container .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 250px; /* Reduced max-height for better fit */
+  overflow-y: auto; /* Changed to auto for better UX */
+  display: none;
+  z-index: 10; /* Higher z-index to appear above other content */
+  list-style: none;
+  flex-direction: column;
+  background-color: var(--bg-color);
+  border: 1px solid var(--primary-color); /* Border consistent with active toggle */
+  border-top: none; /* No top border, it connects to toggle */
+  border-radius: 0 0 20px 20px;
+  padding: 10px 0; /* Padding for list items */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Shadow for dropdown menu */
+}
+
+.dropdown-container.active .dropdown-menu {
+  display: flex;
+}
+
+/* Language Search Input */
+.dropdown-menu .language-search {
+  width: calc(100% - 40px); /* Full width minus padding */
+  padding: 10px 15px;
+  margin: 0 20px 10px 20px; /* Margin for spacing */
+  border: 1px solid var(--light-text-color);
+  border-radius: 8px;
+  background-color: var(--light-bg-color);
+  color: var(--text-color);
+  font-size: 1em;
+  outline: none;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.dropdown-menu .language-search::placeholder {
+  color: var(--light-text-color);
+}
+
+.dropdown-menu .language-search:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(53, 106, 255, 0.1);
+}
+
+.dropdown-container .dropdown-menu li {
+  padding: 12px 20px; /* Adjusted padding */
+  cursor: pointer;
+  margin: 0 10px; /* Margin for spacing */
+  border-radius: 10px; /* Slightly smaller border-radius for list items */
+  transition: all 0.2s ease;
+  font-size: 0.95em;
+  color: var(--text-color);
+}
+
+.dropdown-container .dropdown-menu li:hover {
+  background-color: var(--light-bg-color); /* Use light-bg-color for hover */
+}
+
+.dropdown-container .dropdown-menu li.active {
+  color: var(--primary-text-color);
+  background-color: var(--primary-color);
+}
+
+.container .text-area {
+  position: relative;
+  flex: 1; /* Make text area take available space */
+  display: flex;
+  flex-direction: column;
+}
+
+.container textarea {
+  width: 100%;
+  flex: 1; /* Make textarea fill available space */
+  padding: 20px;
+  margin: 10px 0;
+  background-color: transparent;
+  resize: vertical; /* Allow vertical resizing only */
+  outline: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.1em; /* Slightly larger font size */
+  line-height: 1.5; /* Better readability */
+}
+
+.container textarea::placeholder {
+  color: var(--light-text-color);
+}
+
+.container .text-area .chars {
+  position: absolute;
+  bottom: 5px; /* Adjusted position */
+  right: 15px; /* Adjusted position */
+  padding: 5px 10px; /* Smaller padding */
+  font-size: 0.75rem; /* Smaller font size */
+  color: var(--light-text-color);
+  background-color: rgba(0, 0, 0, 0.05); /* Slight background for readability */
+  border-radius: 5px;
+}
+
+.card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Space out items */
+  padding-top: 20px;
+  margin-top: auto; /* Pushes card-bottom to the end */
+  border-top: 1px solid var(--bg-color); /* Thinner border */
+  flex-wrap: wrap; /* Allow buttons to wrap */
+  gap: 10px; /* Gap between buttons */
+}
+
+.card-bottom p {
+  margin-bottom: 0; /* Remove margin for p tag */
+}
+
+.card-bottom .upload-button, /* Targeting label for upload */
+.card-bottom .listen-button,
+.card-bottom .download-button {
+  height: 45px; /* Slightly smaller button height */
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Reduced gap */
+  padding: 0 18px; /* Adjusted padding */
+  border-radius: 25px; /* More rounded */
+  cursor: pointer;
+  background-color: var(--bg-color);
+  border: none; /* Ensure no default button border */
+  color: var(--text-color);
+  font-size: 0.9em; /* Slightly smaller font for buttons */
+  transition: all 0.2s ease;
+}
+
+.card-bottom .upload-button:hover,
+.card-bottom .listen-button:hover,
+.card-bottom .download-button:hover {
+  color: var(--primary-text-color);
+  background-color: var(--primary-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+}
+
+.card-bottom ion-icon {
+  font-size: 20px; /* Consistent icon size */
+}
+
+/* Specific styling for download button */
+.card-bottom .download-button {
+  margin-left: auto; /* Pushes download button to the right in output card */
+}
+
+.container .center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px; /* Ensure space for swap button */
+}
+
+.swap-position {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 55px; /* Slightly larger */
+  height: 55px; /* Slightly larger */
+  border-radius: 50%;
+  cursor: pointer;
+  border: 5px solid var(--bg-color);
+  transition: all 0.3s ease;
+  color: var(--primary-text-color);
+  background-color: var(--primary-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.swap-position ion-icon {
+  font-size: 28px; /* Larger icon */
+}
+
+.swap-position:hover {
+  transform: scale(1.05); /* Gentle scale on hover */
+  border-color: var(--light-bg-color); /* Change border on hover */
+}
+
+.mode {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100; /* Ensure it's above other elements */
+}
+
+.toggle {
+  position: relative;
+  cursor: pointer;
+}
+
+.toggle-track {
+  width: 35px; /* Adjusted width */
+  height: 60px; /* Adjusted height */
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 5px 0; /* Adjusted padding */
+  justify-content: space-between;
+  border: 1px solid var(--light-text-color);
+  background-color: var(--light-bg-color);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-checkbox {
+  display: none;
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 5px; /* Adjusted initial position */
+  left: 5px; /* Adjusted initial position */
+  width: 25px; /* Adjusted width */
+  height: 25px; /* Adjusted height */
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Bounce effect */
+}
+
+.toggle input:checked ~ .toggle-thumb {
+  transform: translateY(30px); /* Move thumb down */
+}
+
+.toggle img {
+  width: 20px;
+  height: 20px;
+  filter: grayscale(1); /* Desaturate icons */
+  transition: filter 0.3s ease;
+}
+
+.toggle input:checked ~ .toggle-track img:first-child {
+  filter: grayscale(0) brightness(1.2); /* Sun brightens when active */
+}
+
+.toggle input:not(:checked) ~ .toggle-track img:last-child {
+  filter: grayscale(0) brightness(1.2); /* Moon brightens when active */
+}
+
+/* Media Queries */
+@media (max-width: 1024px) {
+  .container {
+    width: 95%;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    width: 90%;
+  }
+
+  .container .card {
+    min-width: unset; /* Allow cards to take full width */
+    width: 100%;
+  }
+
+  .container .center {
+    width: 100%; /* Take full width */
+    height: 80px; /* Provide vertical space */
+    position: relative;
+  }
+
+  .swap-position {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(90deg); /* Rotate for vertical layout */
+    border-width: 3px; /* Smaller border for mobile */
+  }
+
+  .swap-position:hover {
+    transform: translate(-50%, -50%) rotate(90deg) scale(1.05); /* Maintain rotation on hover */
+  }
+
+  .card-bottom {
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: flex-start; /* Align buttons to the start */
+    gap: 15px; /* Increased gap between stacked buttons */
+  }
+
+  .card-bottom .download-button {
+    margin-left: unset; /* Remove auto margin for stacking */
+  }
+}
+
+@media (max-width: 480px) {
+  .container .card {
+    padding: 20px;
+  }
+
+  .dropdown-container .dropdown-toggle {
+    padding: 12px 15px;
+    font-size: 0.9em;
+  }
+
+  .container textarea {
+    font-size: 1em;
+    padding: 15px;
+  }
+
+  .card-bottom .upload-button,
+  .card-bottom .listen-button,
+  .card-bottom .download-button {
+    height: 40px;
+    padding: 0 15px;
+    font-size: 0.85em;
+  }
+
+  .card-bottom ion-icon {
+    font-size: 18px;
+  }
+
+  .mode {
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .toggle-track {
+    width: 30px;
+    height: 50px;
+  }
+
+  .toggle-thumb {
+    width: 20px;
+    height: 20px;
+    left: 4px;
+  }
+
+  .toggle input:checked ~ .toggle-thumb {
+    transform: translateY(25px);
+  }
+}
